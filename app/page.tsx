@@ -4,7 +4,6 @@ import React, { useState, useEffect } from 'react';
 import { ChevronLeft, ChevronRight, Calendar as CalendarIcon, Edit3 } from 'lucide-react';
 
 export default function App() {
-  // --- STATE MANAGEMENT ---
   const [currentDate, setCurrentDate] = useState(new Date());
   const [selectionStart, setSelectionStart] = useState(null);
   const [selectionEnd, setSelectionEnd] = useState(null);
@@ -12,8 +11,6 @@ export default function App() {
   const [notes, setNotes] = useState('');
   const [isLoaded, setIsLoaded] = useState(false);
 
-  // --- DYNAMIC IMAGES ---
-  // We change the hero image based on the current month to give it that physical calendar feel.
   const monthImages = [
    "https://images.unsplash.com/photo-1476820865390-c52aeebb9891?auto=format&fit=crop&q=80&w=1200", // Jan (Snow)
     "https://images.unsplash.com/photo-1483168527879-c66136b56105?auto=format&fit=crop&q=80&w=1200", // Feb (Winter)
@@ -29,7 +26,6 @@ export default function App() {
     "https://images.unsplash.com/photo-1544274411-a7afe6230711?auto=format&fit=crop&q=80&w=1200"  // Dec (Snowy trees)
   ];
 
-  // --- LOCAL STORAGE LOGIC (Persistence) ---
   const getStorageKey = (date) => `calendar_notes_${date.getFullYear()}_${date.getMonth()}`;
 
   // Load notes when the component mounts or when the month changes
@@ -58,7 +54,6 @@ export default function App() {
     }
   };
 
-  // --- CALENDAR LOGIC (Core Javascript) ---
   const year = currentDate.getFullYear();
   const month = currentDate.getMonth();
 
@@ -107,7 +102,6 @@ export default function App() {
     });
   }
 
-  // --- SELECTION LOGIC ---
   const isSameDay = (date1, date2) => {
     if (!date1 || !date2) return false;
     return date1.getDate() === date2.getDate() &&
@@ -150,12 +144,9 @@ export default function App() {
   return (
     <div className="min-h-screen bg-neutral-100 flex items-center justify-center p-4 sm:p-8 font-sans selection:bg-blue-200">
       
-      {/* THE CALENDAR CONTAINER 
-        Uses Flexbox for responsiveness: Stacked on mobile, side-by-side on desktop 
-      */}
+      
       <div className="max-w-5xl w-full bg-white rounded-2xl shadow-2xl shadow-neutral-300/50 overflow-hidden flex flex-col md:flex-row relative">
         
-        {/* --- CREATIVE LIBERTY: BINDER RINGS AT TOP --- */}
         <div className="absolute top-0 left-0 w-full h-4 flex justify-around items-center px-8 z-20 pointer-events-none">
           {[...Array(12)].map((_, i) => (
             <div key={i} className="w-2 h-6 bg-gradient-to-b from-gray-300 to-gray-500 rounded-full shadow-inner transform -translate-y-2 border border-gray-400">
@@ -164,15 +155,14 @@ export default function App() {
           ))}
         </div>
 
-        {/* --- LEFT PANEL: HERO IMAGE & AESTHETIC --- */}
         <div className="relative w-full md:w-5/12 h-64 md:h-auto overflow-hidden bg-neutral-900 group">
-          {/* Dynamic Image with subtle zoom on hover for premium feel */}
+          
           <img 
             src={monthImages[month]} 
             alt={`Scenery for ${monthNames[month]}`}
             className="absolute inset-0 w-full h-full object-cover transition-transform duration-1000 group-hover:scale-105 opacity-90"
           />
-          {/* Gradient Overlay for text readability */}
+        
           <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent flex flex-col justify-end p-8">
             <h2 className="text-white text-5xl font-light tracking-tight mb-1">
               {year}
@@ -202,10 +192,9 @@ export default function App() {
           </div>
         </div>
 
-        {/* --- RIGHT PANEL: INTERACTIVE GRID & NOTES --- */}
+        
         <div className="w-full md:w-7/12 p-6 sm:p-10 flex flex-col pt-12 md:pt-10">
           
-          {/* Calendar Header / Navigation */}
           <div className="flex justify-between items-center mb-8">
             <button 
               onClick={() => changeMonth(-1)}
@@ -240,7 +229,6 @@ export default function App() {
             ))}
           </div>
 
-          {/* The Date Grid */}
           <div 
             className="grid grid-cols-7 gap-y-2 mb-8"
             onMouseLeave={handleMouseLeaveGrid}
@@ -290,7 +278,6 @@ export default function App() {
                   onClick={() => handleDayClick(date)}
                   onMouseEnter={() => handleDayMouseEnter(date)}
                 >
-                  {/* The actual circle for the date number */}
                   <span className={`
                     absolute h-8 w-8 flex items-center justify-center rounded-full
                     ${(isStart || isEnd) ? 'bg-blue-600 shadow-md shadow-blue-500/40 scale-110' : ''}
@@ -299,7 +286,6 @@ export default function App() {
                     {date.getDate()}
                   </span>
                   
-                  {/* Tiny dot to indicate today */}
                   {isToday && !isStart && !isEnd && (
                     <span className="absolute bottom-1 w-1 h-1 bg-blue-600 rounded-full"></span>
                   )}
@@ -308,7 +294,6 @@ export default function App() {
             })}
           </div>
 
-          {/* --- NOTES SECTION --- */}
           <div className="mt-auto border-t border-neutral-100 pt-6">
             <div className="flex items-center gap-2 mb-3 text-neutral-700">
               <Edit3 size={18} className="text-neutral-400" />
