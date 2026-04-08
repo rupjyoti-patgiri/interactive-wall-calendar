@@ -1,11 +1,16 @@
-
-
 "use client";
 
 import React, { useState, useEffect } from 'react';
 import { ChevronLeft, ChevronRight, Calendar as CalendarIcon, Edit3 } from 'lucide-react';
 
+// Define the shape of our calendar cell objects so TypeScript knows exactly what's inside
+interface CalendarCell {
+  date: Date;
+  isCurrentMonth: boolean;
+}
+
 export default function App() {
+  // --- STATE MANAGEMENT ---
   const [currentDate, setCurrentDate] = useState<Date>(new Date());
   const [selectionStart, setSelectionStart] = useState<Date | null>(null);
   const [selectionEnd, setSelectionEnd] = useState<Date | null>(null);
@@ -13,23 +18,24 @@ export default function App() {
   const [notes, setNotes] = useState<string>('');
   const [isLoaded, setIsLoaded] = useState<boolean>(false);
 
-  const monthImages = [
-    "https://images.unsplash.com/photo-1476820865390-c52aeebb9891?auto=format&fit=crop&q=80&w=1200", 
-    "https://images.unsplash.com/photo-1483168527879-c66136b56105?auto=format&fit=crop&q=80&w=1200", 
-    "https://images.unsplash.com/photo-1462275646964-a0e3386b89fa?auto=format&fit=crop&q=80&w=1200", 
-    "https://images.unsplash.com/photo-1469474968028-56623f02e42e?auto=format&fit=crop&q=80&w=1200", 
-    "https://images.unsplash.com/photo-1470240731273-7821a6eeb6bd?auto=format&fit=crop&q=80&w=1200", 
-    "https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&q=80&w=1200", 
-    "https://images.unsplash.com/photo-1519046904884-53103b34b206?auto=format&fit=crop&q=80&w=1200", 
-    "https://images.unsplash.com/photo-1473496169904-658ba7c44d8a?auto=format&fit=crop&q=80&w=1200", 
-    "https://images.unsplash.com/photo-1444459094717-a39f1e3e0903?auto=format&fit=crop&q=80&w=1200", 
-    "https://images.unsplash.com/photo-1509316975850-ff9c5deb0cd9?auto=format&fit=crop&q=80&w=1200", 
-    "https://images.unsplash.com/photo-1433086966358-54859d0ed716?auto=format&fit=crop&q=80&w=1200", 
-    "https://images.unsplash.com/photo-1544274411-a7afe6230711?auto=format&fit=crop&q=80&w=1200"  
+  // --- DYNAMIC IMAGES ---
+  const monthImages: string[] = [
+    "https://images.unsplash.com/photo-1476820865390-c52aeebb9891?auto=format&fit=crop&q=80&w=1200",
+    "https://images.unsplash.com/photo-1483168527879-c66136b56105?auto=format&fit=crop&q=80&w=1200",
+    "https://images.unsplash.com/photo-1462275646964-a0e3386b89fa?auto=format&fit=crop&q=80&w=1200",
+    "https://images.unsplash.com/photo-1469474968028-56623f02e42e?auto=format&fit=crop&q=80&w=1200",
+    "https://images.unsplash.com/photo-1470240731273-7821a6eeb6bd?auto=format&fit=crop&q=80&w=1200",
+    "https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&q=80&w=1200",
+    "https://images.unsplash.com/photo-1519046904884-53103b34b206?auto=format&fit=crop&q=80&w=1200",
+    "https://images.unsplash.com/photo-1473496169904-658ba7c44d8a?auto=format&fit=crop&q=80&w=1200",
+    "https://images.unsplash.com/photo-1444459094717-a39f1e3e0903?auto=format&fit=crop&q=80&w=1200",
+    "https://images.unsplash.com/photo-1509316975850-ff9c5deb0cd9?auto=format&fit=crop&q=80&w=1200",
+    "https://images.unsplash.com/photo-1433086966358-54859d0ed716?auto=format&fit=crop&q=80&w=1200",
+    "https://images.unsplash.com/photo-1544274411-a7afe6230711?auto=format&fit=crop&q=80&w=1200" 
   ];
 
-  
-  const getStorageKey = (date: Date) => `calendar_notes_${date.getFullYear()}_${date.getMonth()}`;
+  // --- LOCAL STORAGE LOGIC ---
+  const getStorageKey = (date: Date): string => `calendar_notes_${date.getFullYear()}_${date.getMonth()}`;
 
   useEffect(() => {
     setIsLoaded(true);
@@ -45,7 +51,6 @@ export default function App() {
     }
   }, [currentDate]);
 
- 
   const handleNotesChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
     const newNotes = e.target.value;
     setNotes(newNotes);
@@ -56,7 +61,7 @@ export default function App() {
     }
   };
 
-
+  // --- CALENDAR LOGIC ---
   const year = currentDate.getFullYear();
   const month = currentDate.getMonth();
 
@@ -64,8 +69,8 @@ export default function App() {
   const firstDayOfMonth = new Date(year, month, 1).getDay();
   const daysInPrevMonth = new Date(year, month, 0).getDate();
 
-  const monthNames = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
-  const dayNames = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
+  const monthNames: string[] = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+  const dayNames: string[] = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
 
   const changeMonth = (offset: number) => {
     setCurrentDate(new Date(year, month + offset, 1));
@@ -77,7 +82,8 @@ export default function App() {
     setSelectionEnd(null);
   };
 
-  const calendarCells = [];
+  // STRICT TYPING: explicitly declaring this array's contents
+  const calendarCells: CalendarCell[] = [];
   
   for (let i = firstDayOfMonth - 1; i >= 0; i--) {
     calendarCells.push({
@@ -101,15 +107,15 @@ export default function App() {
     });
   }
 
-  // Typed the date comparisons
-  const isSameDay = (date1: Date | null, date2: Date | null) => {
+  // --- SELECTION LOGIC ---
+  const isSameDay = (date1: Date | null, date2: Date | null): boolean => {
     if (!date1 || !date2) return false;
     return date1.getDate() === date2.getDate() &&
            date1.getMonth() === date2.getMonth() &&
            date1.getFullYear() === date2.getFullYear();
   };
 
-  const isDateBetween = (target: Date, start: Date | null, end: Date | null) => {
+  const isDateBetween = (target: Date, start: Date | null, end: Date | null): boolean => {
     if (!start || !end) return false;
     const startDate = start < end ? start : end;
     const endDate = start < end ? end : start;
@@ -245,14 +251,19 @@ export default function App() {
                 bgClasses = "bg-blue-50 "; 
               }
 
+              // STRICT TYPING LOGIC FIX
               if (isStart && (selectionEnd || hoverDate)) {
                 const compareDate = selectionEnd || hoverDate;
-                if (date < compareDate) bgClasses += "bg-gradient-to-r from-transparent to-blue-50 ";
-                else if (date > compareDate) bgClasses += "bg-gradient-to-l from-transparent to-blue-50 ";
+                if (compareDate) {
+                  if (date < compareDate) bgClasses += "bg-gradient-to-r from-transparent to-blue-50 ";
+                  else if (date > compareDate) bgClasses += "bg-gradient-to-l from-transparent to-blue-50 ";
+                }
               }
               if (isEnd && selectionStart) {
-                if (date > selectionStart) bgClasses += "bg-gradient-to-l from-transparent to-blue-50 ";
-                else if (date < selectionStart) bgClasses += "bg-gradient-to-r from-transparent to-blue-50 ";
+                if (selectionStart) {
+                  if (date > selectionStart) bgClasses += "bg-gradient-to-l from-transparent to-blue-50 ";
+                  else if (date < selectionStart) bgClasses += "bg-gradient-to-r from-transparent to-blue-50 ";
+                }
               }
 
               return (
