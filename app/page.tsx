@@ -10,7 +10,6 @@ interface CalendarCell {
 }
 
 export default function App() {
-  // --- STATE MANAGEMENT ---
   const [currentDate, setCurrentDate] = useState<Date>(new Date());
   const [selectionStart, setSelectionStart] = useState<Date | null>(null);
   const [selectionEnd, setSelectionEnd] = useState<Date | null>(null);
@@ -18,7 +17,6 @@ export default function App() {
   const [notes, setNotes] = useState<string>('');
   const [isLoaded, setIsLoaded] = useState<boolean>(false);
 
-  // --- DYNAMIC IMAGES ---
   const monthImages: string[] = [
     "https://images.unsplash.com/photo-1476820865390-c52aeebb9891?auto=format&fit=crop&q=80&w=1200",
     "https://images.unsplash.com/photo-1483168527879-c66136b56105?auto=format&fit=crop&q=80&w=1200",
@@ -34,7 +32,6 @@ export default function App() {
     "https://images.unsplash.com/photo-1544274411-a7afe6230711?auto=format&fit=crop&q=80&w=1200" 
   ];
 
-  // --- LOCAL STORAGE LOGIC ---
   const getStorageKey = (date: Date): string => `calendar_notes_${date.getFullYear()}_${date.getMonth()}`;
 
   useEffect(() => {
@@ -61,7 +58,6 @@ export default function App() {
     }
   };
 
-  // --- CALENDAR LOGIC ---
   const year = currentDate.getFullYear();
   const month = currentDate.getMonth();
 
@@ -82,7 +78,6 @@ export default function App() {
     setSelectionEnd(null);
   };
 
-  // STRICT TYPING: explicitly declaring this array's contents
   const calendarCells: CalendarCell[] = [];
   
   for (let i = firstDayOfMonth - 1; i >= 0; i--) {
@@ -107,7 +102,6 @@ export default function App() {
     });
   }
 
-  // --- SELECTION LOGIC ---
   const isSameDay = (date1: Date | null, date2: Date | null): boolean => {
     if (!date1 || !date2) return false;
     return date1.getDate() === date2.getDate() &&
@@ -251,7 +245,6 @@ export default function App() {
                 bgClasses = "bg-blue-50 "; 
               }
 
-              // STRICT TYPING LOGIC FIX
               if (isStart && (selectionEnd || hoverDate)) {
                 const compareDate = selectionEnd || hoverDate;
                 if (compareDate) {
