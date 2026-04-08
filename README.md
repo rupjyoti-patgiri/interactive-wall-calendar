@@ -1,9 +1,61 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# 🗓️ Interactive Wall Calendar Component
 
-## Getting Started
+**Live Deployment:** [View the Live Demo Here](https://interactive-wall-calendar-7c5s.vercel.app/)
 
-First, run the development server:
+## Overview
+This project is an interactive, responsive web component designed to emulate the tactile aesthetic of a physical wall calendar. It was built as a strict frontend engineering challenge, focusing on complex state management, custom date logic, responsive design, and browser-based data persistence.
 
+## ✨ Core Features
+* **Custom Date Selection:** Users can seamlessly select a start date and an end date, with the UI visually highlighting the entire range. 
+* **Persistent Memos:** Features an integrated notes section. Data is saved locally in the browser, ensuring notes survive page refreshes and are tied strictly to the specific month being viewed.
+* **Dynamic Aesthetics:** The "hero" image automatically updates based on the current month, bringing a seasonal, physical-calendar feel to the digital space.
+* **Mobile-First Responsiveness:** Utilizes modern CSS techniques to shift from a spacious side-by-side desktop layout to a perfectly stacked, touch-friendly mobile interface.
+* **Skeuomorphic Touches:** Includes a custom CSS "binder ring" effect to bridge the gap between digital and physical design.
+
+## 🛠️ Technical Choices & Architecture
+To demonstrate proficiency in modern frontend development, this project was built using the following stack and design decisions:
+
+* **Framework (Next.js & React):** Chosen for its robust App Router architecture and optimal rendering performance.
+* **Language (Strict TypeScript):** Implemented strict TypeScript typing across all components, states, and event handlers to ensure a type-safe, production-ready codebase and prevent runtime errors.
+* **Styling (Tailwind CSS):** Utilized for rapid, utility-first styling. This allowed for precise control over the responsive grid layouts and complex pseudo-class styling (like gradient highlights for date ranges) without bloated CSS files.
+* **Date Logic (Native JavaScript):** *Intentional Choice.* Rather than relying on heavy external libraries like `moment.js` or `date-fns`, all date calculations, grid generation, and range selection logic were written natively using the JavaScript `Date` object to showcase core JS competency.
+* **Data Persistence (localStorage):** Adhering to the "strictly frontend" constraint, the `useEffect` hook is paired with the browser API to securely save and retrieve user notes without a backend database.
+* **Icons (Lucide-React):** Selected for clean, lightweight SVG icons that integrate flawlessly with Tailwind.
+
+---
+
+## 🚀 Getting Started (Local Development)
+
+### Prerequisites
+Before you begin, ensure you have the following installed on your local machine:
+* **Node.js** (v18.0.0 or higher recommended)
+* **Git**
+* A package manager of your choice (`npm`, `yarn`, `pnpm`, or `bun`)
+
+### Installation & Setup
+
+**1. Clone the repository**
+Open your terminal and run the following command to download the project:
+```bash
+git clone https://github.com/rupjyoti-patgiri/interactive-wall-calendar.git
+cd interactive-wall-calendar
+```
+
+
+**2. Install dependencies**
+Install the required packages:
+```bash
+npm install
+# or
+yarn install
+# or
+pnpm install
+# or
+bun install
+```
+
+**3. Run the development server**
+Start the local server:
 ```bash
 npm run dev
 # or
@@ -14,23 +66,20 @@ pnpm dev
 bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+**4. View the application**
+Open [http://localhost:3000](http://localhost:3000) in your web browser. The page will automatically hot-reload if you make any edits to `src/app/page.tsx`.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+### Testing the Production Build (Optional)
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+To test the production build locally:
+```bash
+npm run build
+npm run start
+```
 
-## Learn More
+---
 
-To learn more about Next.js, take a look at the following resources:
+## 👨‍💻 Author
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+**Rupjyoti Patgiri**  
+*Built for the SWE Summer Internship Frontend Engineering Challenge.*
