@@ -9,3 +9,5 @@ console.log(add(5,3))
 let hello = "hello world"
 
 let yellow = "color"
+
+let orange = "Fall"
